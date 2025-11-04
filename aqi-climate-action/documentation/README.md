@@ -493,10 +493,10 @@ We believe AI for climate action should be accessible to all. This project is co
 
 ## 👨‍💻 Author
 
-**[Your Name]**
-- GitHub: [@yourusername](https://github.com/yourusername)
-- LinkedIn: [Your Profile](https://linkedin.com/in/yourprofile)
-- Email: your.email@example.com
+**Nathan Mwaura**
+- GitHub: [@NathanMwaura](https://github.com/NathanMwaura)
+- LinkedIn: [Nathan Mwaura](https://www.linkedin.com/in/nathan-mwaura-04183a2b1/)
+- Email: nathanwaweru75@gmail.com
 
 **Institution**: PLP Academy - AI for Sustainable Development Program
 

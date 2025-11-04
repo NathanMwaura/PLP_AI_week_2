@@ -9,6 +9,7 @@ helping cities take preventive measures against pollution.
 
 import numpy as np
 import pandas as pd
+
 import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.model_selection import train_test_split
@@ -17,7 +18,8 @@ from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 import warnings
-warnings.filterwarnings('ignore')
+
+warnings.filterwarnings("ignore")
 
 # Set random seed for reproducibility
 np.random.seed(42)
@@ -29,6 +31,7 @@ print("=" * 60)
 print("AIR QUALITY PREDICTION MODEL - SDG 13: CLIMATE ACTION")
 print("=" * 60)
 
+
 def generate_sample_data(n_samples=1000):
     """
     Generate synthetic air quality data
@@ -38,36 +41,39 @@ def generate_sample_data(n_samples=1000):
     - Kaggle AQI datasets
     """
     data = {
-        'PM2.5': np.random.uniform(10, 200, n_samples),
-        'PM10': np.random.uniform(20, 300, n_samples),
-        'NO2': np.random.uniform(10, 100, n_samples),
-        'SO2': np.random.uniform(5, 80, n_samples),
-        'CO': np.random.uniform(0.1, 5, n_samples),
-        'Temperature': np.random.uniform(10, 40, n_samples),
-        'Humidity': np.random.uniform(30, 90, n_samples),
-        'Wind_Speed': np.random.uniform(0, 20, n_samples),
-        'Traffic_Volume': np.random.randint(100, 10000, n_samples),
-        'Industrial_Activity': np.random.uniform(0, 100, n_samples)
+        "PM2.5": np.random.uniform(10, 200, n_samples),
+        "PM10": np.random.uniform(20, 300, n_samples),
+        "NO2": np.random.uniform(10, 100, n_samples),
+        "SO2": np.random.uniform(5, 80, n_samples),
+        "CO": np.random.uniform(0.1, 5, n_samples),
+        "Temperature": np.random.uniform(10, 40, n_samples),
+        "Humidity": np.random.uniform(30, 90, n_samples),
+        "Wind_Speed": np.random.uniform(0, 20, n_samples),
+        "Traffic_Volume": np.random.randint(100, 10000, n_samples),
+        "Industrial_Activity": np.random.uniform(0, 100, n_samples),
     }
-    
+
     df = pd.DataFrame(data)
-    
+
     # Calculate AQI (simplified formula based on PM2.5)
     # Real AQI calculation is more complex: https://www.airnow.gov/aqi/aqi-calculator/
-    df['AQI'] = (df['PM2.5'] * 0.5 + 
-                 df['PM10'] * 0.2 + 
-                 df['NO2'] * 0.15 + 
-                 df['SO2'] * 0.1 + 
-                 df['CO'] * 0.05 +
-                 np.random.normal(0, 10, n_samples))  # Add noise
-    
+    df["AQI"] = (
+        df["PM2.5"] * 0.5
+        + df["PM10"] * 0.2
+        + df["NO2"] * 0.15
+        + df["SO2"] * 0.1
+        + df["CO"] * 0.05
+        + np.random.normal(0, 10, n_samples)
+    )  # Add noise
+
     return df
+
 
 # Generate data
 print("\n📊 Loading and preparing data...")
 df = generate_sample_data(1000)
 print(f"Dataset shape: {df.shape}")
-print(f"\nFirst 5 rows:")
+print("\nFirst 5 rows:")
 print(df.head())
 
 # ============================================
@@ -81,7 +87,7 @@ print("\nDataset Statistics:")
 print(df.describe())
 
 print("\nCorrelation with AQI:")
-correlations = df.corr()['AQI'].sort_values(ascending=False)
+correlations = df.corr()["AQI"].sort_values(ascending=False)
 print(correlations)
 
 # ============================================
@@ -92,8 +98,8 @@ print("DATA PREPROCESSING")
 print("=" * 60)
 
 # Split features and target
-X = df.drop('AQI', axis=1)
-y = df['AQI']
+X = df.drop("AQI", axis=1)
+y = df["AQI"]
 
 # Split into training and testing sets (80-20 split)
 X_train, X_test, y_train, y_test = train_test_split(
@@ -119,9 +125,9 @@ print("=" * 60)
 
 # Define models
 models = {
-    'Linear Regression': LinearRegression(),
-    'Random Forest': RandomForestRegressor(n_estimators=100, random_state=42),
-    'Gradient Boosting': GradientBoostingRegressor(n_estimators=100, random_state=42)
+    "Linear Regression": LinearRegression(),
+    "Random Forest": RandomForestRegressor(n_estimators=100, random_state=42),
+    "Gradient Boosting": GradientBoostingRegressor(n_estimators=100, random_state=42),
 }
 
 results = {}
@@ -130,20 +136,20 @@ for name, model in models.items():
     print(f"\n🔄 Training {name}...")
     model.fit(X_train_scaled, y_train)
     y_pred = model.predict(X_test_scaled)
-    
+
     # Calculate metrics
     mae = mean_absolute_error(y_test, y_pred)
     rmse = np.sqrt(mean_squared_error(y_test, y_pred))
     r2 = r2_score(y_test, y_pred)
-    
+
     results[name] = {
-        'model': model,
-        'predictions': y_pred,
-        'MAE': mae,
-        'RMSE': rmse,
-        'R2': r2
+        "model": model,
+        "predictions": y_pred,
+        "MAE": mae,
+        "RMSE": rmse,
+        "R2": r2,
     }
-    
+
     print(f"   MAE: {mae:.2f}")
     print(f"   RMSE: {rmse:.2f}")
     print(f"   R² Score: {r2:.3f}")
@@ -155,32 +161,33 @@ print("\n" + "=" * 60)
 print("MODEL COMPARISON")
 print("=" * 60)
 
-comparison_df = pd.DataFrame({
-    'Model': list(results.keys()),
-    'MAE': [results[m]['MAE'] for m in results],
-    'RMSE': [results[m]['RMSE'] for m in results],
-    'R2_Score': [results[m]['R2'] for m in results]
-})
+comparison_df = pd.DataFrame(
+    {
+        "Model": list(results.keys()),
+        "MAE": [results[m]["MAE"] for m in results],
+        "RMSE": [results[m]["RMSE"] for m in results],
+        "R2_Score": [results[m]["R2"] for m in results],
+    }
+)
 
 print("\n", comparison_df.to_string(index=False))
 
-best_model_name = comparison_df.loc[comparison_df['R2_Score'].idxmax(), 'Model']
+best_model_name = comparison_df.loc[comparison_df["R2_Score"].idxmax(), "Model"]
 print(f"\n🏆 Best Model: {best_model_name}")
 
 # ============================================
 # 6. FEATURE IMPORTANCE (for tree-based models)
 # ============================================
-if best_model_name in ['Random Forest', 'Gradient Boosting']:
+if best_model_name in ["Random Forest", "Gradient Boosting"]:
     print("\n" + "=" * 60)
     print("FEATURE IMPORTANCE ANALYSIS")
     print("=" * 60)
-    
-    best_model = results[best_model_name]['model']
-    feature_importance = pd.DataFrame({
-        'Feature': X.columns,
-        'Importance': best_model.feature_importances_
-    }).sort_values('Importance', ascending=False)
-    
+
+    best_model = results[best_model_name]["model"]
+    feature_importance = pd.DataFrame(
+        {"Feature": X.columns, "Importance": best_model.feature_importances_}
+    ).sort_values("Importance", ascending=False)
+
     print("\n", feature_importance.to_string(index=False))
 
 # ============================================
@@ -191,7 +198,8 @@ print("SAMPLE PREDICTIONS")
 print("=" * 60)
 
 # Make predictions on test set
-best_predictions = results[best_model_name]['predictions']
+best_predictions = results[best_model_name]["predictions"]
+
 
 # Show sample predictions with AQI categories
 def categorize_aqi(aqi):
@@ -209,12 +217,15 @@ def categorize_aqi(aqi):
     else:
         return "Hazardous"
 
-sample_results = pd.DataFrame({
-    'Actual_AQI': y_test[:10].values,
-    'Predicted_AQI': best_predictions[:10],
-    'Actual_Category': [categorize_aqi(aqi) for aqi in y_test[:10].values],
-    'Predicted_Category': [categorize_aqi(aqi) for aqi in best_predictions[:10]]
-})
+
+sample_results = pd.DataFrame(
+    {
+        "Actual_AQI": y_test[:10].values,
+        "Predicted_AQI": best_predictions[:10],
+        "Actual_Category": [categorize_aqi(aqi) for aqi in y_test[:10].values],
+        "Predicted_Category": [categorize_aqi(aqi) for aqi in best_predictions[:10]],
+    }
+)
 
 print("\n", sample_results.to_string(index=False))
 
